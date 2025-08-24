@@ -213,7 +213,7 @@ public class ChemMaster extends javax.swing.JFrame {
             String selected = chemsListUI.getSelectedValue();
             ArrayList<Chemical> chemsList = chemio.readChem();
             for (Chemical chemical : chemsList) {
-                if (wantedAmountTF.getText() != null) {
+                if (wantedAmountTF.getText().isEmpty()) {
                     wanted = 1f;
                 } else {
                     wanted = Float.valueOf(wantedAmountTF.getText());
