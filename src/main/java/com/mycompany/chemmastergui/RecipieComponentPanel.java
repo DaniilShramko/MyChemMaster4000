@@ -32,6 +32,7 @@ public class RecipieComponentPanel extends JPanel {
     private int mouseX, mouseY; // Stores the initial mouse coordinates relative to the panel
 
     public RecipieComponentPanel(Chemical chemical, Float wantedAmount, Component parent, Point startpoint) {
+        int x = 250, y = 20;
 
         HashMap<Chemical, Float> recipie = chemical.getRecipe(wantedAmount);
         JLabel name = new JLabel("Name: " + chemical.getName());
@@ -43,19 +44,18 @@ public class RecipieComponentPanel extends JPanel {
         if (hsbValues[2] < 0.5f) {
             name.setForeground(Color.white);
             temperature.setForeground(Color.white);
-        };
+        }
         // Set a preferred size for the panel
-        setBounds((int) startpoint.getX() + 350, (int) startpoint.getY() + 120, 350, 150);
 
-        setPreferredSize(new Dimension(200, 100));
+        
+
         // Set a background color for visibility
-
         // Add a border for better visual separation
         setBorder(BorderFactory.createLineBorder(Color.BLACK));
         setLayout(new BorderLayout());
 
         JPanel headerPanel = new JPanel();
-        headerPanel.setPreferredSize(new Dimension(20, 40));
+        headerPanel.setPreferredSize(new Dimension(15, 32));
         headerPanel.setLayout(new BorderLayout());
         JPanel data = new JPanel();
         data.setLayout(new BoxLayout(data, BoxLayout.Y_AXIS));
@@ -81,7 +81,7 @@ public class RecipieComponentPanel extends JPanel {
         add(headerPanel, BorderLayout.NORTH);
 
         JPanel centerPanel = new JPanel();
-        centerPanel.setPreferredSize(new Dimension(20, 30));
+        centerPanel.setPreferredSize(new Dimension(0, 0));
         centerPanel.setLayout(new GridLayout(0, 2));
         recipie.forEach((chem, amount) -> {
             JButton tempButton = new JButton("Show Recipie");
@@ -99,9 +99,10 @@ public class RecipieComponentPanel extends JPanel {
             }
 
         });
-
+        setBounds((int) startpoint.getX() + x, (int) startpoint.getY() + y, 250, 120);
         add(centerPanel, BorderLayout.CENTER);
         updateUI();
+
         // Add MouseListener for mouse pressed event
         addMouseListener(new MouseAdapter() {
             @Override
@@ -129,4 +130,6 @@ public class RecipieComponentPanel extends JPanel {
             }
         });
     }
+
+
 }
