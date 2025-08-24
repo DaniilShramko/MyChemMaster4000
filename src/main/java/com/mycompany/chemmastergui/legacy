@@ -1,0 +1,166 @@
+// public class App {
+//     public static void main(String[] args) throws Exception {
+//         System.out.println("\n");
+//         // Reading File
+//         ArrayList<Chemical> chemsRead = new ArrayList<Chemical>();
+//         try {
+//             ObjectInputStream in = new ObjectInputStream(new FileInputStream("ChemsList.txt"));
+//             chemsRead = (ArrayList<Chemical>) in.readObject();
+//             in.close();
+//         } catch (IOException ioe) {
+//             System.err.println("Read ERROR" + ioe);
+//         }
+//       // Reading user input
+
+
+//         Scanner scanner = new Scanner(System.in);
+//         System.out.println("Input chemical name");
+//         String wantedChem = scanner.nextLine();
+//         System.out.println("Input chemical amount");
+//         Float wantedAmount = Float.parseFloat(scanner.nextLine());
+//         scanner.close();
+
+
+
+//         // Shienanigans
+//         HashMap<Chemical, Float> newChemRec = new HashMap<Chemical, Float>();
+//         newChemRec.put(getChem("Aluite", chemsRead), 5f);
+//         newChemRec.put(getChem("Au", chemsRead), 2f);
+//         newChemRec.put(getChem("Sygnate", chemsRead), 2f);
+//         newChemRec.put(getChem("Si", chemsRead), 1f);
+
+//         Chemical newChemical = new Chemical("Aluminium", null, null, null,Color.decode("#758182ff"));
+
+//         if (getChem(newChemical.getName(), chemsRead) == null) {
+//             try {
+//                 Boolean isNull = newChemical.getRecipe().containsKey(null);
+//                 if (isNull) {
+//                     System.out.println("Recipie item cant be null");
+//                     System.exit(-1);
+//                 }
+//             } catch (NullPointerException e) {
+//             }
+//             chemsRead.add(newChemical);
+//             System.out.println("Chem sucsessfully added");
+//         } else {
+//             System.out.println("Chem already in the list");
+//         }
+       
+
+//         // Old program
+//         // Chemical Cl = new Chemical("Cl", null, null, null);
+//         // Chemical U = new Chemical("U", null, null, null);
+//         // Chemical Al = new Chemical("Al", null, null, null);
+//         // Chemical N = new Chemical("N", null, null, null);
+//         // Chemical Na = new Chemical("Na", null, null, null);
+//         // Chemical H = new Chemical("H", null, null, null);
+//         // Chemical O2 = new Chemical("O2", null, null, null);
+//         // Chemical C = new Chemical("C", null, null, null);
+//         // Chemical sugar = new Chemical("sugar", null, null, null);
+
+//         // HashMap<Chemical, Float> OHrec = new HashMap<Chemical, Float>();
+//         // OHrec.put(H, 1f);
+//         // OHrec.put(O2, 1f);
+//         // Chemical OH = new Chemical("OH", null, 2f, OHrec);
+
+//         // HashMap<Chemical, Float> benzRec = new HashMap<Chemical, Float>();
+//         // benzRec.put(H, 1f);
+//         // benzRec.put(C, 1f);
+//         // Chemical benzol = new Chemical("Benzol", 310, 1f, benzRec);
+
+//         // HashMap<Chemical, Float> fenolRec = new HashMap<Chemical, Float>();
+//         // fenolRec.put(benzol, 1f);
+//         // fenolRec.put(OH, 1f);
+//         // Chemical fenol = new Chemical("Fenol", null, 2f, fenolRec);
+
+//         // HashMap<Chemical, Float> poliNaRec = new HashMap<Chemical, Float>();
+//         // poliNaRec.put(O2, 2f);
+//         // poliNaRec.put(Na, 1f);
+//         // poliNaRec.put(N, 1f);
+//         // Chemical poliNa = new Chemical("PoliNa", null, 4f, poliNaRec);
+
+//         // HashMap<Chemical, Float> auluiteRec = new HashMap<Chemical, Float>();
+//         // auluiteRec.put(Al, 3f);
+//         // auluiteRec.put(fenol, 1f);
+//         // auluiteRec.put(poliNa, 1f);
+//         // Chemical aluite = new Chemical("Aluite", 199, 3f, auluiteRec);
+
+//         // HashMap<Chemical, Float> amiakRec = new HashMap<Chemical, Float>();
+//         // amiakRec.put(H, 3f);
+//         // amiakRec.put(N, 1f);
+//         // Chemical amiak = new Chemical("Amiak", null, 4f, amiakRec);
+
+//         // HashMap<Chemical, Float> saltRec = new HashMap<Chemical, Float>();
+//         // saltRec.put(Na, 1f);
+//         // saltRec.put(Cl, 1f);
+//         // Chemical salt = new Chemical("Salt", 370, 2f, saltRec);
+
+//         // HashMap<Chemical, Float> CNaRec = new HashMap<Chemical, Float>();
+//         // CNaRec.put(amiak, 1f);
+//         // CNaRec.put(salt, 1f);
+//         // CNaRec.put(C, 1f);
+//         // CNaRec.put(O2, 1f);
+//         // Chemical CNa = new Chemical("CNa", null, 4f, CNaRec);
+
+//         // HashMap<Chemical, Float> LazideRec = new HashMap<Chemical, Float>();
+//         // LazideRec.put(aluite, 5f);
+//         // LazideRec.put(U, 2f);
+//         // LazideRec.put(CNa, 2f);
+//         // LazideRec.put(fenol, 1f);
+//         // Chemical Lazide = new Chemical("Lazide", 400, 10f, LazideRec);
+
+//         // HashMap<Chemical, Float> Inaprovaline = new HashMap<Chemical, Float>();
+//         // Inaprovaline.put(O2, 1f);
+//         // Inaprovaline.put(C, 1f);
+//         // Inaprovaline.put(sugar, 1f);
+//         // Chemical Inapr = new Chemical("Inaprovaline", null, 3f, Inaprovaline);
+
+//         // HashMap<Chemical, Float> Bicaridine = new HashMap<Chemical, Float>();
+//         // Bicaridine.put(Inapr, 1f);
+//         // Bicaridine.put(C, 1f);
+//         // Chemical Bicarid = new Chemical("Bicaridine", null, 2f, Bicaridine);
+
+        
+//         // chemsRead.add(Lazide);
+//         // chemsRead.add(Bicarid);
+//         // chemsRead.add(Inapr);
+//         // chemsRead.add(O2);
+//         // chemsRead.add(C);
+//         // chemsRead.add(sugar);
+//         // chemsRead.add(CNa);
+//         // chemsRead.add(salt);
+//         // chemsRead.add(amiak);
+//         // chemsRead.add(aluite);
+//         // chemsRead.add(poliNa);
+//         // chemsRead.add(fenol);
+//         // chemsRead.add(benzol);
+//         // chemsRead.add(OH);
+
+//         // Write file
+//         try {
+//             ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("ChemsList.txt"));
+//             out.writeObject(chemsRead);
+
+//             out.close();
+//         } catch (IOException ioe) {
+//             System.err.println("Write ERROR");
+//         }
+
+        
+//         chemsRead.forEach(c -> {
+            
+//                 System.out.println( c.getName());
+//         });
+
+//     }
+
+//     public static Chemical getChem(String name, ArrayList<Chemical> list) {
+
+//         for (int i = 0; i < list.size(); i++) {
+//             if (list.get(i).getName().equals(name)) {
+//                 return list.get(i);
+//             }
+//         }
+//         return null;
+//     }
+// }
