@@ -19,6 +19,7 @@ import javax.swing.SwingUtilities;
 public class ChemMaster extends javax.swing.JFrame {
 
     ChemIO chemio = new ChemIO();
+    ChemicalListUpdater clu = new ChemicalListUpdater();
 
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(ChemMaster.class.getName());
 
@@ -28,21 +29,13 @@ public class ChemMaster extends javax.swing.JFrame {
     public ChemMaster() {
         initComponents();
 
-        try {
-            ArrayList<Chemical> chemsList = chemio.readChem();
-            DefaultListModel listModel = (DefaultListModel) chemsListUI.getModel();
-            chemsList.forEach(chemical -> {
-                listModel.addElement(chemical.getName());
-            });
-        } catch (Exception e) {
-            System.out.println("Err line 38 " + e);
-        }
+        clu.update(chemsListUI);
         JPopupMenu popupMenu = new JPopupMenu();
         JMenuItem menuItem1 = new JMenuItem("Delete Chemical");
         menuItem1.addActionListener(e -> {
             try {
                 chemio.deleteChem(chemsListUI.getSelectedValue());
-                new UpdateListUI(chemsListUI);
+                clu.update(chemsListUI);
             } catch (Exception e1) {
                 System.out.println("Err line 47" + e1);
             }
@@ -76,7 +69,6 @@ public class ChemMaster extends javax.swing.JFrame {
     private void initComponents() {
 
         searchField = new javax.swing.JTextField();
-        searchButton = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         chemsListUI = new javax.swing.JList<>();
         recipieButton = new javax.swing.JButton();
@@ -94,8 +86,11 @@ public class ChemMaster extends javax.swing.JFrame {
                 searchFieldActionPerformed(evt);
             }
         });
-
-        searchButton.setText("Search");
+        searchField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                searchFieldKeyReleased(evt);
+            }
+        });
 
         chemsListUI.setModel(new DefaultListModel<>());
         jScrollPane1.setViewportView(chemsListUI);
@@ -167,11 +162,8 @@ public class ChemMaster extends javax.swing.JFrame {
                             .addComponent(wantedAmountTF, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(recipieButton))
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(searchField)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(searchButton))
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                        .addComponent(searchField, javax.swing.GroupLayout.Alignment.LEADING)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(recipiePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
@@ -179,11 +171,9 @@ public class ChemMaster extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(searchField, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(searchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(searchField, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 246, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 247, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(wantedAmountTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -214,7 +204,7 @@ public class ChemMaster extends javax.swing.JFrame {
     }//GEN-LAST:event_addChemButtonActionPerformed
 
     private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
-        new UpdateListUI(chemsListUI);
+        clu.update(chemsListUI);
     }//GEN-LAST:event_updateButtonActionPerformed
 
     private void recipieButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_recipieButtonActionPerformed
@@ -252,6 +242,10 @@ public class ChemMaster extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_wantedAmountTFActionPerformed
 
+    private void searchFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchFieldKeyReleased
+        clu.searchInList(searchField.getText(), chemsListUI);
+    }//GEN-LAST:event_searchFieldKeyReleased
+
     /**
      * @param args the command line arguments
      */
@@ -285,7 +279,6 @@ public class ChemMaster extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton recipieButton;
     private javax.swing.JPanel recipiePanel;
-    private javax.swing.JButton searchButton;
     private javax.swing.JTextField searchField;
     private javax.swing.JButton updateButton;
     private javax.swing.JTextField wantedAmountTF;
