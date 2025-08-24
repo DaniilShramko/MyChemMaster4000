@@ -208,14 +208,19 @@ public class ChemMaster extends javax.swing.JFrame {
     }//GEN-LAST:event_updateButtonActionPerformed
 
     private void recipieButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_recipieButtonActionPerformed
-
+        Float wanted;
         try {
             String selected = chemsListUI.getSelectedValue();
             ArrayList<Chemical> chemsList = chemio.readChem();
             for (Chemical chemical : chemsList) {
-                if (selected != null && wantedAmountTF != null) {
+                if (wantedAmountTF.getText() != null) {
+                    wanted = 1f;
+                } else {
+                    wanted = Float.valueOf(wantedAmountTF.getText());
+                }
+                if (selected != null) {
                     if (selected.equals(chemical.getName())) {
-                        RecipieComponentPanel rcp = new RecipieComponentPanel(chemical, Float.parseFloat(wantedAmountTF.getText()), recipiePanel,getLocation());
+                        RecipieComponentPanel rcp = new RecipieComponentPanel(chemical, wanted, recipiePanel, getLocation());
                         recipiePanel.add(rcp);
                         recipiePanel.revalidate();
                         recipiePanel.repaint();
