@@ -4,11 +4,13 @@
  */
 package com.mycompany.chemmastergui;
 
+import java.awt.Component;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import javax.swing.DefaultListModel;
 import javax.swing.JMenuItem;
+import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.SwingUtilities;
 
@@ -28,7 +30,7 @@ public class ChemMaster extends javax.swing.JFrame {
      */
     public ChemMaster() {
         initComponents();
-
+        recipiePanel.setName("mainRecipiePanel");
         clu.update(chemsListUI);
         JPopupMenu popupMenu = new JPopupMenu();
         JMenuItem menuItem1 = new JMenuItem("Delete Chemical");
@@ -75,6 +77,7 @@ public class ChemMaster extends javax.swing.JFrame {
         addChemButton = new javax.swing.JButton();
         updateButton = new javax.swing.JButton();
         recipiePanel = new javax.swing.JPanel();
+        clearWorkSpaceJButton = new javax.swing.JButton();
         wantedAmountTF = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -130,15 +133,27 @@ public class ChemMaster extends javax.swing.JFrame {
             }
         });
 
+        clearWorkSpaceJButton.setText("Clear");
+        clearWorkSpaceJButton.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        clearWorkSpaceJButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                clearWorkSpaceJButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout recipiePanelLayout = new javax.swing.GroupLayout(recipiePanel);
         recipiePanel.setLayout(recipiePanelLayout);
         recipiePanelLayout.setHorizontalGroup(
             recipiePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 398, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, recipiePanelLayout.createSequentialGroup()
+                .addGap(0, 369, Short.MAX_VALUE)
+                .addComponent(clearWorkSpaceJButton))
         );
         recipiePanelLayout.setVerticalGroup(
             recipiePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(recipiePanelLayout.createSequentialGroup()
+                .addComponent(clearWorkSpaceJButton)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         wantedAmountTF.addActionListener(new java.awt.event.ActionListener() {
@@ -188,6 +203,7 @@ public class ChemMaster extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        recipiePanel.getAccessibleContext().setAccessibleName("");
         recipiePanel.getAccessibleContext().setAccessibleDescription("");
 
         pack();
@@ -222,8 +238,8 @@ public class ChemMaster extends javax.swing.JFrame {
                     if (selected.equals(chemical.getName())) {
                         RecipieComponentPanel rcp = new RecipieComponentPanel(chemical, wanted, recipiePanel, getLocation());
                         recipiePanel.add(rcp);
-                        recipiePanel.revalidate();
-                        recipiePanel.repaint();
+                        recipiePanel.updateUI();
+
                     }
                 }
             }
@@ -250,6 +266,15 @@ public class ChemMaster extends javax.swing.JFrame {
     private void searchFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchFieldKeyReleased
         clu.searchInList(searchField.getText(), chemsListUI);
     }//GEN-LAST:event_searchFieldKeyReleased
+
+    private void clearWorkSpaceJButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearWorkSpaceJButtonActionPerformed
+        for (Component c : recipiePanel.getComponents()) {
+            if (c instanceof JPanel) {
+                recipiePanel.remove(c);
+            }
+        }
+        recipiePanel.updateUI();
+    }//GEN-LAST:event_clearWorkSpaceJButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -281,6 +306,7 @@ public class ChemMaster extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addChemButton;
     private javax.swing.JList<String> chemsListUI;
+    private javax.swing.JButton clearWorkSpaceJButton;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton recipieButton;
     private javax.swing.JPanel recipiePanel;
