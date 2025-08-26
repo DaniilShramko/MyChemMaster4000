@@ -6,7 +6,6 @@ package com.mycompany.chemmastergui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Container;
 import java.awt.Cursor;
 import java.awt.Dimension;
@@ -16,8 +15,8 @@ import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -32,9 +31,8 @@ public class RecipieComponentPanel extends JPanel {
 
     private int mouseX, mouseY; // Stores the initial mouse coordinates relative to the panel
 
-    public RecipieComponentPanel(Chemical chemical, Float wantedAmount, JPanel parent, Point startpoint) {
-        int x = 250, y = 20;
-
+    public RecipieComponentPanel(Chemical chemical, Float wantedAmount, JPanel parent, Point startpoint, Dimension parentSize, ArrayList<JPanel> childrenList) {
+        setName(chemical.getName());
         HashMap<Chemical, Float> recipie = chemical.getRecipe(wantedAmount);
         JLabel name = new JLabel("Name: " + chemical.getName());
         JLabel temperature = new JLabel("Temperature: " + chemical.getTemperature());
@@ -62,6 +60,7 @@ public class RecipieComponentPanel extends JPanel {
         JButton closeButton = new JButton("X");
 
         closeButton.addActionListener(l -> {
+            childrenList.remove(this);
             getParent().remove(this);
             parent.updateUI();
 
@@ -78,16 +77,24 @@ public class RecipieComponentPanel extends JPanel {
         headerPanel.setCursor(Cursor.getPredefinedCursor(Cursor.MOVE_CURSOR));
         add(headerPanel, BorderLayout.NORTH);
 
-        JPanel centerPanel = new JPanel();;
+        JPanel centerPanel = new JPanel();
         centerPanel.setLayout(new GridLayout(0, 2, 0, 0));
-
 
         recipie.forEach((chem, amount) -> {
             JButton tempButton = new JButton("Show Recipie");
             tempButton.addActionListener(l -> {
-                getParent().add(new RecipieComponentPanel(chem, amount, parent, getLocation()));
-                parent.revalidate();
-                parent.repaint();
+                if (childrenList.isEmpty()) {
+                    RecipieComponentPanel rcp = new RecipieComponentPanel(chem, amount, parent, getLocation(), getSize(), childrenList);
+                    childrenList.add(rcp);
+                    getParent().add(rcp);
+                    parent.updateUI();
+                } else {
+                    RecipieComponentPanel rcp = new RecipieComponentPanel(chem, amount, parent, childrenList.getLast().getLocation(), childrenList.getLast().getSize(), childrenList);
+                    childrenList.add(rcp);
+                    getParent().add(rcp);
+                    parent.updateUI();
+                }
+
             });
             tempButton.setMargin(new Insets(-5, 0, -5, 0));
             JLabel tempLabel = new JLabel(chem.getName() + " " + amount);
@@ -100,7 +107,7 @@ public class RecipieComponentPanel extends JPanel {
         });
 
         int rcpVerticalSize = headerPanel.getPreferredSize().height + centerPanel.getPreferredSize().height;
-        setBounds((int) startpoint.getX() + x, (int) startpoint.getY() + y, 250, rcpVerticalSize);
+        setBounds((int) startpoint.getX(), (int) startpoint.getY() + parentSize.height, 250, rcpVerticalSize);
         add(centerPanel, BorderLayout.CENTER);
         updateUI();
 
