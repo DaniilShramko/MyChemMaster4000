@@ -55,12 +55,7 @@ public class ChemicalListUpdater {
                     listModel.addElement(chemical.getName());
                 }
             }
-//            chemsList.forEach(chemical -> {
-//                Matcher m = p.matcher(chemical.getName());
-//                if (m.find()) {
-//                    listModel.addElement(chemical.getName());
-//                }
-//            });
+
         } catch (Exception e) {
             System.out.println("Err in ChemicalListUpdater " + e);
 
