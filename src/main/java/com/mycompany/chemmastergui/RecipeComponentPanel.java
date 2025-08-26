@@ -29,7 +29,9 @@ import javax.swing.JPanel;
  */
 public class RecipeComponentPanel extends MovableJpanel {
 
-    public RecipeComponentPanel(Chemical chemical, Float wantedAmount, JPanel parent, Point startpoint, Dimension parentSize, ArrayList<JPanel> childrenList) {
+    ArrayList<JPanel> childrenList = new ArrayList<>();
+
+    public RecipeComponentPanel(Chemical chemical, Float wantedAmount, JPanel parent, Point startpoint, Dimension parentSize) {
 
         HashMap<Chemical, Float> recipe = chemical.getRecipe(wantedAmount);
 
@@ -64,9 +66,10 @@ public class RecipeComponentPanel extends MovableJpanel {
             parent.updateUI();
 
         });
+
         close.add(closeButton);
         close.setOpaque(false);
-        
+
         //Header panel
         JPanel headerPanel = new JPanel();
         headerPanel.setLayout(new BorderLayout());
@@ -75,21 +78,21 @@ public class RecipeComponentPanel extends MovableJpanel {
         headerPanel.setBackground(chemical.getColor());
         headerPanel.setCursor(Cursor.getPredefinedCursor(Cursor.MOVE_CURSOR));
         add(headerPanel, BorderLayout.NORTH);
-        
+
         //Recipe panel
         JPanel recipePanel = new JPanel();
-        recipePanel.setLayout(new GridLayout(0, 2, 0, 0));
+        recipePanel.setLayout(new GridLayout(0, 1, 0, 0));
         //Algorithm for filling recipePanel
         recipe.forEach((chem, amount) -> {
-            JButton tempButton = new JButton("Show Recipe");
+            JButton tempButton = new JButton(Math.ceil(amount / 5) * 5 + " " + chem.getName());
             tempButton.addActionListener(l -> {
                 if (childrenList.isEmpty()) {
-                    RecipeComponentPanel rcp = new RecipeComponentPanel(chem, amount, parent, getLocation(), getSize(), childrenList);
+                    RecipeComponentPanel rcp = new RecipeComponentPanel(chem, amount, parent, getLocation(), getSize());
                     childrenList.add(rcp);
                     getParent().add(rcp);
                     parent.updateUI();
                 } else {
-                    RecipeComponentPanel rcp = new RecipeComponentPanel(chem, amount, parent, childrenList.getLast().getLocation(), childrenList.getLast().getSize(), childrenList);
+                    RecipeComponentPanel rcp = new RecipeComponentPanel(chem, amount, parent, childrenList.getLast().getLocation(), childrenList.getLast().getSize());
                     childrenList.add(rcp);
                     getParent().add(rcp);
                     parent.updateUI();
@@ -97,15 +100,13 @@ public class RecipeComponentPanel extends MovableJpanel {
 
             });
             tempButton.setMargin(new Insets(-5, 0, -5, 0));
-            JLabel tempLabel = new JLabel(chem.getName() + " " + amount);
-            recipePanel.add(tempLabel);
             recipePanel.add(tempButton);
             if (chem.getRecipe(10f).isEmpty()) {
                 tempButton.setEnabled(false);
             }
 
         });
-        
+
         //Setting up bounds depending on number of components
         int rcpVerticalSize = headerPanel.getPreferredSize().height + recipePanel.getPreferredSize().height;
         setBounds((int) startpoint.getX(), (int) startpoint.getY() + parentSize.height, 250, rcpVerticalSize);
