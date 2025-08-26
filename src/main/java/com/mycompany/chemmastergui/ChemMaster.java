@@ -6,6 +6,7 @@ package com.mycompany.chemmastergui;
 
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -235,7 +236,7 @@ public class ChemMaster extends javax.swing.JFrame {
                 }
                 if (selected != null) {
                     if (selected.equals(chemical.getName())) {
-                        RecipeComponentPanel rcp = new RecipeComponentPanel(chemical, wanted, workspacePanel, getLocation(), new Dimension(0, 0), new ArrayList<>());
+                        RecipeComponentPanel rcp = new RecipeComponentPanel(chemical, wanted, workspacePanel, new Point(0,0), new Dimension(0, 0));
                         workspacePanel.add(rcp);
                         workspacePanel.updateUI();
 
