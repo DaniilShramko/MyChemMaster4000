@@ -11,9 +11,9 @@ import javax.swing.JPanel;
  *
  * @author shram
  */
-public class RecipieButton {
+public class RecipeButton {
 
-    public RecipieButton(JPanel parent, Float amount) {
+    public RecipeButton(JPanel parent, Float amount) {
 
     }
 
