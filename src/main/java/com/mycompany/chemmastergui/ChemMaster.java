@@ -131,6 +131,9 @@ public class ChemMaster extends javax.swing.JFrame {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 workspacePanelMousePressed(evt);
             }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                workspacePanelMouseReleased(evt);
+            }
         });
 
         clearWorkSpaceJButton.setText("Clear");
@@ -236,7 +239,7 @@ public class ChemMaster extends javax.swing.JFrame {
                 }
                 if (selected != null) {
                     if (selected.equals(chemical.getName())) {
-                        RecipeComponentPanel rcp = new RecipeComponentPanel(chemical, wanted, workspacePanel, new Point(0,0), new Dimension(0, 0));
+                        RecipeComponentPanel rcp = new RecipeComponentPanel(chemical, wanted, workspacePanel, new Point(0, 0), new Dimension(0, 0),null);
                         workspacePanel.add(rcp);
                         workspacePanel.updateUI();
 
@@ -275,6 +278,10 @@ public class ChemMaster extends javax.swing.JFrame {
         }
         workspacePanel.updateUI();
     }//GEN-LAST:event_clearWorkSpaceJButtonActionPerformed
+
+    private void workspacePanelMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_workspacePanelMouseReleased
+
+    }//GEN-LAST:event_workspacePanelMouseReleased
 
     /**
      * @param args the command line arguments
