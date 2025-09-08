@@ -31,7 +31,13 @@ public class RecipeComponentPanel extends MovableJpanel {
 
     ArrayList<JPanel> childrenList = new ArrayList<>();
 
-    public RecipeComponentPanel(Chemical chemical, Float wantedAmount, JPanel parent, Point startpoint, Dimension parentSize) {
+    public RecipeComponentPanel(
+            Chemical chemical,
+            Float wantedAmount,
+            JPanel parent,
+            Point startpoint,
+            Dimension parentSize,
+            ArrayList<JPanel> parentsChildren) {
 
         HashMap<Chemical, Float> recipe = chemical.getRecipe(wantedAmount);
 
@@ -61,7 +67,9 @@ public class RecipeComponentPanel extends MovableJpanel {
         JPanel close = new JPanel();
         JButton closeButton = new JButton("X");
         closeButton.addActionListener(l -> {
-            childrenList.remove(this);
+            if (parentsChildren != null) {
+                parentsChildren.remove(this);
+            }
             getParent().remove(this);
             parent.updateUI();
 
@@ -87,12 +95,23 @@ public class RecipeComponentPanel extends MovableJpanel {
             JButton tempButton = new JButton(Math.ceil(amount / 5) * 5 + " " + chem.getName());
             tempButton.addActionListener(l -> {
                 if (childrenList.isEmpty()) {
-                    RecipeComponentPanel rcp = new RecipeComponentPanel(chem, amount, parent, getLocation(), getSize());
+                    RecipeComponentPanel rcp = new RecipeComponentPanel(chem,
+                            amount,
+                            parent,
+                            getLocation(),
+                            getSize(),
+                            childrenList);
                     childrenList.add(rcp);
                     getParent().add(rcp);
                     parent.updateUI();
                 } else {
-                    RecipeComponentPanel rcp = new RecipeComponentPanel(chem, amount, parent, childrenList.getLast().getLocation(), childrenList.getLast().getSize());
+                    RecipeComponentPanel rcp = new RecipeComponentPanel(
+                            chem,
+                            amount,
+                            parent,
+                            childrenList.getLast().getLocation(),
+                            childrenList.getLast().getSize(),
+                            childrenList);
                     childrenList.add(rcp);
                     getParent().add(rcp);
                     parent.updateUI();
