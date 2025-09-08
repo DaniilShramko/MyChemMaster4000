@@ -9,12 +9,10 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 
-
 /**
  *
  * @author shram
  */
-
 import javax.swing.JPanel;
 
 public class MovableJpanel extends JPanel {
@@ -44,4 +42,3 @@ public class MovableJpanel extends JPanel {
         });
     }
 }
-
